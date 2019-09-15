@@ -5,7 +5,7 @@ Feature: Create a booking
     Scenario Outline: Create a booking when all fields filled with valid values
       Given Fill form a with given values
             | firstName   | lastName    | price   | bookingPaid  | checkInDate   | checkOutDate   |
-            |<firstName>  | <lastName>  | <price> | <booking>| <checkInDate> | <checkOutDate> |
+            |<firstName>  | <lastName>  | <price> | <booking>    | <checkInDate> | <checkOutDate> |
       When I save the booking
       Then booking should be saved
       Examples:
