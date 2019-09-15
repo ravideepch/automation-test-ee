@@ -29,6 +29,7 @@ Feature: Validate bookings
       | random string |
       | £@$%          |
       | 0             |
+      | -1            |
       |               |
 
   Scenario Outline: A Booking should not be saved if check in field has invalid value
