@@ -15,8 +15,8 @@ import java.util.List;
 public class CreateBookingPage
 {
 	public static final String BOOKING_PAGE_URL = "http://hotel-test.equalexperts.io/";
-	private final String DEPOSIT_PAID = "true";
-	private final String DEPOSIT_NOT_PAID = "false";
+	public final String DEPOSIT_PAID = "true";
+	public final String DEPOSIT_NOT_PAID = "false";
 	public static final String BOOKING_PAGE_TITLE = "Hotel booking form";
 	private final String BOOKING_PAGE_HEADER_TEXT  = "Hotel booking form";
 	public final String DELETE_BUTTON_LOCATOR = "[type=\"button\"][value=\"Delete\"]";
@@ -124,10 +124,10 @@ public class CreateBookingPage
 		priceInputElement.sendKeys(price);
 	}
 
-	public void selectDepositPaid(boolean bookingPaid)
+	public void selectDepositPaid(String bookingPaid)
 	{
 		Select depositDropDown = new Select(depositDropDownElement);
-		if (bookingPaid)
+		if (bookingPaid.equalsIgnoreCase("Yes"))
 		{
 			depositDropDown.selectByVisibleText(DEPOSIT_PAID);
 		}else {
@@ -152,14 +152,6 @@ public class CreateBookingPage
 
 	public void deleteBookings()
 	{
-//		try {
-//				for (int i = 0; i < deleteButtonElements.size(); i++)
-//					deleteButtonElements.get(i).click();
-//			}
-//		catch (IndexOutOfBoundsException ignoreException){
-//			System.out.println("No delete button is found");
-//		}
-
 		if(isDeleteButtonPresent())
 		{
 			for (int i = 0; i < deleteButtonElements.size(); i++)
@@ -210,11 +202,18 @@ public class CreateBookingPage
 	public void fillAllFieldsInBookingForm(String firstName,  String lastName, String price,
 										   String checkInDate, String checkOutDate)
 	{
+		fillAllFieldsInBookingForm(firstName,  lastName, price, "Yes", checkInDate, checkOutDate);
+	}
+
+	public void fillAllFieldsInBookingForm(String firstName,  String lastName, String price, String isDepositPaid,
+										   String checkInDate, String checkOutDate)
+	{
 		enterFirstName(firstName);
 		enterLastName(lastName);
 		enterPrice(price);
 		enterCheckInDate(checkInDate);
 		enterCheckOutDate(checkOutDate);
+		selectDepositPaid(isDepositPaid);
 	}
 
 	public void checkForDeleteElement()

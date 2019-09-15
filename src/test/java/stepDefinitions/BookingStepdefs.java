@@ -62,15 +62,15 @@ public class BookingStepdefs {
 	@And("^Deposit is paid")
 	public void depositIsPaid()
 	{
-		bookingPage.selectDepositPaid(true);
-		isDepositPaid = "true";
+		bookingPage.selectDepositPaid("Yes");
+		isDepositPaid = bookingPage.DEPOSIT_PAID;
 	}
 
 	@And("^Deposit is not paid")
 	public void depositIsNotPaid()
 	{
-		bookingPage.selectDepositPaid(false);
-		isDepositPaid = "false";
+		bookingPage.selectDepositPaid("No");
+		isDepositPaid = bookingPage.DEPOSIT_NOT_PAID;
 	}
 
 	@When("^I save the booking$")
@@ -130,8 +130,9 @@ public class BookingStepdefs {
 			priceEntered = currentForm.get("price");
 			checkInDateEntered = currentForm.get("checkInDate");
 			checkOutDateEntered = currentForm.get("checkOutDate");
+			isDepositPaid = currentForm.get("bookingPaid");
 
-			bookingPage.fillAllFieldsInBookingForm(firstNameEntered,  lastNameEntered, priceEntered,
+			bookingPage.fillAllFieldsInBookingForm(firstNameEntered,  lastNameEntered, priceEntered, isDepositPaid,
 										   checkInDateEntered, checkOutDateEntered);
 		}
 	}
