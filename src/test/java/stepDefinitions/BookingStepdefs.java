@@ -19,8 +19,7 @@ public class BookingStepdefs {
 	private WebDriver driver;
 	private CreateBookingPage bookingPage;
 	private String firstNameEntered, lastNameEntered, priceEntered,
-			checkInDateEntered, checkOutDateEntered;
-	private String isDepositPaid;
+			checkInDateEntered, checkOutDateEntered, isDepositPaid;
 
 	@Before
 	public void setup()
@@ -57,20 +56,6 @@ public class BookingStepdefs {
 
 		bookingPage.deleteBookings();
 		fillTheBookingForm(bookings);
-	}
-
-	@And("^Deposit is paid")
-	public void depositIsPaid()
-	{
-		bookingPage.selectDepositPaid(true);
-		isDepositPaid = "true";
-	}
-
-	@And("^Deposit is not paid")
-	public void depositIsNotPaid()
-	{
-		bookingPage.selectDepositPaid(false);
-		isDepositPaid = "false";
 	}
 
 	@When("^I save the booking$")
@@ -130,8 +115,12 @@ public class BookingStepdefs {
 			priceEntered = currentForm.get("price");
 			checkInDateEntered = currentForm.get("checkInDate");
 			checkOutDateEntered = currentForm.get("checkOutDate");
+			String depositEntered = currentForm.get("bookingPaid");
+			isDepositPaid = depositEntered.equalsIgnoreCase("yes")
+					? bookingPage.DEPOSIT_PAID
+					: bookingPage.DEPOSIT_NOT_PAID;
 
-			bookingPage.fillAllFieldsInBookingForm(firstNameEntered,  lastNameEntered, priceEntered,
+			bookingPage.fillAllFieldsInBookingForm(firstNameEntered,  lastNameEntered, priceEntered, depositEntered,
 										   checkInDateEntered, checkOutDateEntered);
 		}
 	}
