@@ -6,8 +6,9 @@ import org.junit.runner.RunWith;
 
 @RunWith(Cucumber.class)
 @CucumberOptions(
-		features = {"src/test/features/validateBookings.feature"},
-		glue = {"stepDefinitions"}
+		features = {"src/test/features/"},
+		glue = {"stepDefinitions"},
+		tags = {"@BookingTests"}
 )
 public class CreateAndDeleteBookingsRunner
 {

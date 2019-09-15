@@ -1,3 +1,4 @@
+@BookingTests
 Feature: Validate bookings
 
   Scenario Outline: A Booking should not be saved if first name field has invalid value

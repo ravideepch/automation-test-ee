@@ -1,5 +1,7 @@
+@BookingTests
 Feature: Delete bookings
-    Scenario: Delete bookings for which deposit is paid
+
+   Scenario: Delete bookings for which deposit is paid
       Given I have a booking
         And Deposit is paid
       When I delete booked

@@ -1,3 +1,4 @@
+@BookingTests
 Feature: Create a booking
   Background: Booking site is loaded
     Given I am on the booking site
