@@ -4,7 +4,7 @@ Feature: Create a booking
     Given I am on the booking site
 
     Scenario Outline: Create a booking when all fields filled with valid values
-      Given Fill form a with given values
+      Given Booking form is filled
             | firstName   | lastName    | price   | bookingPaid  | checkInDate   | checkOutDate   |
             |<firstName>  | <lastName>  | <price> | <booking>    | <checkInDate> | <checkOutDate> |
       When I save the booking

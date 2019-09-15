@@ -49,8 +49,8 @@ public class BookingStepdefs {
 		bookingPage.checkIfBookingPageLoaded();
 	}
 
-	@Given("^Fill form a with given values$")
-	public void fillFormWithValidValues(DataTable forms)
+	@Given("^Booking form is filled$")
+	public void bookingFormIsFilled(DataTable forms)
 	{
 		List<Map<String, String>> bookings = forms.asMaps(String.class, String.class);
 
