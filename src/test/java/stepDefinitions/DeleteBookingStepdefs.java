@@ -2,6 +2,7 @@ package stepDefinitions;
 
 import cucumber.api.java.After;
 import cucumber.api.java.Before;
+import cucumber.api.java.en.And;
 import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
@@ -46,6 +47,17 @@ public class DeleteBookingStepdefs
 		bookingPage.saveBooking();
 	}
 
+	@And("^Deposit is paid")
+	public void depositIsPaid()
+	{
+		bookingPage.selectDepositPaid("Yes");
+	}
+
+	@And("^Deposit is not paid")
+	public void depositIsNotPaid()
+	{
+		bookingPage.selectDepositPaid("No");
+	}
 	@When("^I delete booked$")
 	public void iDeleteBooked() {
 		bookingPage.deleteBookings();
