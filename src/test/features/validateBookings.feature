@@ -38,9 +38,9 @@ Feature: Validate bookings
       | <checkInDate> |
     Then Booking should not be saved
     Examples:
-      | checkInDate    |
-      | 121212121      |
-      |               |
+      | checkInDate |
+      | 121212121   |
+      |             |
 
   Scenario Outline: A Booking should not be saved if check out field has invalid value
     Given Invalid value entered in "check out date" field
