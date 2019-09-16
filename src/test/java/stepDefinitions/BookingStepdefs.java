@@ -9,6 +9,7 @@ import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
 import helpers.ConfigHelper;
 import org.junit.Assert;
+import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebDriver;
 import pageObjects.CreateBookingPage;
 
@@ -20,6 +21,13 @@ public class BookingStepdefs {
 	private CreateBookingPage bookingPage;
 	private String firstNameEntered, lastNameEntered, priceEntered,
 			checkInDateEntered, checkOutDateEntered, isDepositPaid;
+	private String invalidField;
+	private String invalidValue;
+	private static final String VALID_FIRST_NAME = "Tom";
+	private static final String VALID_LAST_NAME = "Nelson";
+	private static final String VALID_PRICE = "20";
+	private static final String VALID_CHECK_IN_DATE = "2017-01-01";
+	private static final String VALID_CHECK_OUT_DATE = "2017-01-02";
 
 	@Before
 	public void setup()
@@ -68,6 +76,120 @@ public class BookingStepdefs {
 	public void bookingShouldBeSaved()
 	{
 		checkValuesStoredInTheForm();
+	}
+
+
+	@Given("^I have a booking$")
+	public void iHaveABooking()
+	{
+		bookingPage.loadBookingPage();
+		bookingPage.checkIfBookingPageLoaded();
+		bookingPage.fillAllFieldsInBookingForm("Mary",  "Stanton", "20", "2017-01-01", "2017-01-01");
+		bookingPage.saveBooking();
+	}
+
+	@And("^Deposit is paid")
+	public void depositIsPaid()
+	{
+		bookingPage.selectDepositPaid("Yes");
+	}
+
+	@And("^Deposit is not paid")
+	public void depositIsNotPaid()
+	{
+		bookingPage.selectDepositPaid("No");
+	}
+	@When("^I delete booked$")
+	public void iDeleteBooked() {
+		bookingPage.deleteBookings();
+	}
+
+	@Then("^Booking should be deleted$")
+	public void bookingShouldBeDeleted()
+	{
+		driver.navigate().refresh();
+		try{
+			bookingPage.checkForDeleteElement();
+			Assert.fail("As all the bookings should be deleted there should be no delete button");
+		}catch (NoSuchElementException expectedException){
+			System.out.println("delete button on booking page doesn't exist and no booking exist");
+		}
+	}
+
+	@Given("^Invalid value entered in \"([^\"]*)\" field$")
+	public void invalidValueEnteredInFirstNameField(String fieldName, DataTable fieldValuesTab)
+	{
+		invalidField = fieldName;
+
+		List<String> fieldValues = fieldValuesTab.asList(String.class);
+
+		for (int i = 0; i < fieldValues.size() ; i++) {
+			if(invalidField.equalsIgnoreCase("first name"))
+				bookingWithInvalidFirstName(fieldValues.get(i));
+			else if (invalidField.equalsIgnoreCase("last name"))
+				bookingWithInvalidLastName(fieldValues.get(i));
+			else if (invalidField.equalsIgnoreCase("price"))
+				bookingWithInvalidPrice(fieldValues.get(i));
+			else  if (invalidField.equalsIgnoreCase("check in date"))
+				bookingWithInvalidCheckInDate(fieldValues.get(i));
+			else if (invalidField.equalsIgnoreCase("check out date"))
+				bookingWithInvalidCheckOutDate(fieldValues.get(i));
+			else
+				Assert.fail("Incorrect field name entered for invalid field values feature in Given keyword");
+		}
+
+		bookingPage.saveBooking();
+	}
+
+	@Then("^Booking should not be saved$")
+	public void bookingShouldNotBeSaved()
+	{
+		try{
+			bookingPage.checkForDeleteElement();
+			Assert.fail("Booking with invalid value: " + invalidValue +
+							" in the field: " + invalidField + ", should not be saved"
+			);
+		}catch (NoSuchElementException expectedException){
+			System.out.println("No booking is saved as invalid value of: " + invalidValue +
+									" is entered in the field: " + invalidField
+			);
+		}
+	}
+
+	private void bookingWithInvalidFirstName(String invalidFirstName)
+	{
+		invalidValue = invalidFirstName;
+		bookingPage.fillAllFieldsInBookingForm(invalidFirstName,  VALID_LAST_NAME, VALID_PRICE,
+				VALID_CHECK_IN_DATE, VALID_CHECK_OUT_DATE);
+	}
+
+	private void bookingWithInvalidLastName(String invalidLastName)
+	{
+		invalidValue = invalidLastName;
+		bookingPage.fillAllFieldsInBookingForm(VALID_FIRST_NAME,  invalidLastName, VALID_PRICE,
+				VALID_CHECK_IN_DATE, VALID_CHECK_OUT_DATE);
+		System.out.println("print the name");
+	}
+
+	private void bookingWithInvalidPrice(String invalidPrice)
+	{
+		invalidValue = invalidPrice;
+		bookingPage.fillAllFieldsInBookingForm(VALID_FIRST_NAME,  VALID_LAST_NAME, invalidPrice,
+				VALID_CHECK_IN_DATE, VALID_CHECK_OUT_DATE);
+	}
+
+	private void bookingWithInvalidCheckInDate(String invalidCheckInDate)
+	{
+		invalidValue = invalidCheckInDate;
+		bookingPage.fillAllFieldsInBookingForm(VALID_FIRST_NAME,  VALID_LAST_NAME, VALID_PRICE,
+				invalidCheckInDate, VALID_CHECK_OUT_DATE);
+	}
+
+	private void bookingWithInvalidCheckOutDate(String invalidCheckOutDate)
+	{
+		invalidValue = invalidCheckOutDate;
+		bookingPage.fillAllFieldsInBookingForm(VALID_FIRST_NAME,  VALID_LAST_NAME, VALID_PRICE,
+				VALID_CHECK_IN_DATE, invalidCheckOutDate);
 	}
 
 	private void checkValuesStoredInTheForm()

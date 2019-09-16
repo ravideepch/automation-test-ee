@@ -1,6 +1,9 @@
 @BookingTests
 Feature: Validate bookings
 
+  Background: Booking site is loaded
+    Given I am on the booking site
+
   Scenario Outline: A Booking should not be saved if first name field has invalid value
     Given Invalid value entered in "first name" field
       | <firstName> |
@@ -8,8 +11,8 @@ Feature: Validate bookings
     Examples:
       | firstName    |
       | 121212       |
-      | £@$%         |
-      |              |
+#      | £@$%         |
+#      |              |
 
   Scenario Outline: A Booking should not be saved if last name field  has invalid value
     Given Invalid value entered in "last name" field
