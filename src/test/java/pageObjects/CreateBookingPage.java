@@ -2,13 +2,16 @@ package pageObjects;
 
 import org.junit.Assert;
 import org.openqa.selenium.By;
+import org.openqa.selenium.TimeoutException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindAll;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.How;
 import org.openqa.selenium.support.PageFactory;
+import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.Select;
+import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.util.List;
 
@@ -17,10 +20,12 @@ public class CreateBookingPage
 	public static final String BOOKING_PAGE_URL = "http://hotel-test.equalexperts.io/";
 	public final String DEPOSIT_PAID = "true";
 	public final String DEPOSIT_NOT_PAID = "false";
+	private final int WAIT_TO_SAVE = 5;
 	public static final String BOOKING_PAGE_TITLE = "Hotel booking form";
 	private final String BOOKING_PAGE_HEADER_TEXT  = "Hotel booking form";
 	public final String DELETE_BUTTON_LOCATOR = "[type=\"button\"][value=\"Delete\"]";
-	private final WebDriver driver;
+	private WebDriver driver;
+	private WebDriverWait wait;
 
 	//Constants for saved bookings locators
 	//If columns are changed or re arranged below constants should be updated
@@ -36,6 +41,8 @@ public class CreateBookingPage
 	{
 		PageFactory.initElements(driver, this);
 		this.driver = driver;
+
+		wait = new WebDriverWait(driver, WAIT_TO_SAVE);
 	}
 
 	//input field web elements
@@ -148,6 +155,23 @@ public class CreateBookingPage
 	public void saveBooking()
 	{
 		saveButtonElement.click();
+
+		try{
+			wait.until(ExpectedConditions.visibilityOf(deleteButtonElement));
+		} catch (TimeoutException ex){
+			Assert.fail("Given booking not saved or even after " + WAIT_TO_SAVE + " seconds");
+		}
+	}
+
+	public void trySavingBookingWhenDataIsInvalid()
+	{
+		saveButtonElement.click();
+
+		try{
+			wait.until(ExpectedConditions.visibilityOf(deleteButtonElement));
+		} catch (TimeoutException ignoredException){
+			System.out.println("Booking is not saved as invalid values are entered.");
+		}
 	}
 
 	public void deleteBookings()
@@ -162,11 +186,6 @@ public class CreateBookingPage
 	public Boolean isDeleteButtonPresent()
 	{
 		return (deleteButtonElements.size() !=0);
-	}
-
-	public String getSavedTextInBooking()
-	{
-		return savedBookingTableElement.getText();
 	}
 
 	public String getFirstName()

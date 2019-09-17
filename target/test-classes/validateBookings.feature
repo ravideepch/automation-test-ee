@@ -11,8 +11,8 @@ Feature: Validate bookings
     Examples:
       | firstName    |
       | 121212       |
-#      | £@$%         |
-#      |              |
+      | £@$%         |
+      |              |
 
   Scenario Outline: A Booking should not be saved if last name field  has invalid value
     Given Invalid value entered in "last name" field

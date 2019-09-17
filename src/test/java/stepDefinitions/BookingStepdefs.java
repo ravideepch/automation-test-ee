@@ -78,7 +78,6 @@ public class BookingStepdefs {
 		checkValuesStoredInTheForm();
 	}
 
-
 	@Given("^I have a booking$")
 	public void iHaveABooking()
 	{
@@ -99,6 +98,7 @@ public class BookingStepdefs {
 	{
 		bookingPage.selectDepositPaid("No");
 	}
+	
 	@When("^I delete booked$")
 	public void iDeleteBooked() {
 		bookingPage.deleteBookings();
@@ -138,7 +138,7 @@ public class BookingStepdefs {
 				Assert.fail("Incorrect field name entered for invalid field values feature in Given keyword");
 		}
 
-		bookingPage.saveBooking();
+		bookingPage.trySavingBookingWhenDataIsInvalid();
 	}
 
 	@Then("^Booking should not be saved$")
