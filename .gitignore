@@ -22,3 +22,5 @@
 # virtual machine crash logs, see http://www.java.com/en/download/help/error_hotspot.xml
 hs_err_pid*
 target/surefire-reports/
+target/surefire/surefire6336659563594520900tmp
+target/surefire/surefire_0382877356328830925tmp
