@@ -4,11 +4,10 @@ import cucumber.api.CucumberOptions;
 import cucumber.api.testng.AbstractTestNGCucumberTests;
 
 @CucumberOptions(
-		features = {"src/test/features/createBooking.feature"},
+		features = {"src/test/features/deleteBooking.feature"},
 		glue = {"stepDefinitions"}
 )
-
-public class CreateBookingsTest extends AbstractTestNGCucumberTests
+public class DeleteBookingsTest extends AbstractTestNGCucumberTests
 {
 
 }
