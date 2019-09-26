@@ -1,6 +1,4 @@
 helpers/ConfigHelper.class
 stepDefinitions/BookingStepdefs.class
-testRunners/CreateBookingsTest.class
 testRunners/CreateAndDeleteBookingsRunner.class
 pageObjects/CreateBookingPage.class
-testRunners/DeleteBookingsTest.class

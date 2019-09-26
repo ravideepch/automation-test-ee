@@ -1,6 +1,9 @@
 <!DOCTYPE suite SYSTEM "https://testng.org/testng-1.0.dtd" >
 
 <suite name="CreateBookings" verbose="1" >
+    <listeners>
+        <listener class-name="helpers.ListenerHelper"></listener>
+    </listeners>
   <test name="CreateBookings">
     <classes>
         <class name="testRunners.CreateBookingsTest" />
